@@ -1,0 +1,65 @@
+{
+    "DragonFly": {
+        "checkpoints": [
+            {
+                "steps": 2399964,
+                "file_path": "results\\dragon_run1\\DragonFly\\DragonFly-2399964.onnx",
+                "reward": 142.687255859375,
+                "creation_time": 1773010323.2527647,
+                "auxillary_file_paths": [
+                    "results\\dragon_run1\\DragonFly\\DragonFly-2399964.pt"
+                ]
+            },
+            {
+                "steps": 2599965,
+                "file_path": "results\\dragon_run1\\DragonFly\\DragonFly-2599965.onnx",
+                "reward": 42.70377731323242,
+                "creation_time": 1773011103.4574633,
+                "auxillary_file_paths": [
+                    "results\\dragon_run1\\DragonFly\\DragonFly-2599965.pt"
+                ]
+            },
+            {
+                "steps": 2799923,
+                "file_path": "results\\dragon_run1\\DragonFly\\DragonFly-2799923.onnx",
+                "reward": 82.56518365368247,
+                "creation_time": 1773011878.8307502,
+                "auxillary_file_paths": [
+                    "results\\dragon_run1\\DragonFly\\DragonFly-2799923.pt"
+                ]
+            },
+            {
+                "steps": 2999895,
+                "file_path": "results\\dragon_run1\\DragonFly\\DragonFly-2999895.onnx",
+                "reward": 64.4137727022171,
+                "creation_time": 1773012653.8020413,
+                "auxillary_file_paths": [
+                    "results\\dragon_run1\\DragonFly\\DragonFly-2999895.pt"
+                ]
+            },
+            {
+                "steps": 3181652,
+                "file_path": "results\\dragon_run1\\DragonFly\\DragonFly-3181652.onnx",
+                "reward": null,
+                "creation_time": 1773013627.6009398,
+                "auxillary_file_paths": [
+                    "results\\dragon_run1\\DragonFly\\DragonFly-3181652.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3181652,
+            "file_path": "results\\dragon_run1\\DragonFly.onnx",
+            "reward": null,
+            "creation_time": 1773013627.6009398,
+            "auxillary_file_paths": [
+                "results\\dragon_run1\\DragonFly\\DragonFly-3181652.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.0.1+cpu"
+    }
+}

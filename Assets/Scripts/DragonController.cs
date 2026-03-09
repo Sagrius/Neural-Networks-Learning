@@ -19,4 +19,19 @@ public class DragonController : MonoBehaviour
         AnimatorRef.speed = speed;
     }
 
+    public void SetLeftWingValue(float newValue)
+    {
+        SetWingSliderRef.SetValueLeftWing(newValue);
+    }
+
+    public void SetRightWingValue(float NewValue)
+    {
+        SetWingSliderRef.SetValueRightWing(NewValue);
+    }
+
+    public void SetTailValue(float newValue)
+    {
+        SetWingSliderRef.SetValueTail(newValue);
+    }
+
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6116682255953544693}
   - component: {fileID: 34935282775452619}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Obstacle
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 7267963052771476590}
   - component: {fileID: 6619548382291740038}
   - component: {fileID: 1094939862495649660}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
