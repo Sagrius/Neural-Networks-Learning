@@ -1,0 +1,227 @@
+{
+    "DragonFlight": {
+        "checkpoints": [
+            {
+                "steps": 30402,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-30402.onnx",
+                "reward": 41.317593574523926,
+                "creation_time": 1774612385.3356128,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-30402.pt"
+                ]
+            },
+            {
+                "steps": 49743,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-49743.onnx",
+                "reward": 28.20544985474133,
+                "creation_time": 1774612726.7325785,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-49743.pt"
+                ]
+            },
+            {
+                "steps": 99209,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-99209.onnx",
+                "reward": 36.020218322151585,
+                "creation_time": 1774612965.8801475,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-99209.pt"
+                ]
+            },
+            {
+                "steps": 148908,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-148908.onnx",
+                "reward": 81.53218290540907,
+                "creation_time": 1774613267.3063776,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-148908.pt"
+                ]
+            },
+            {
+                "steps": 173992,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-173992.onnx",
+                "reward": 83.34952116012573,
+                "creation_time": 1774613474.178608,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-173992.pt"
+                ]
+            },
+            {
+                "steps": 198673,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-198673.onnx",
+                "reward": 57.84086963108608,
+                "creation_time": 1774613730.5964289,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-198673.pt"
+                ]
+            },
+            {
+                "steps": 248671,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-248671.onnx",
+                "reward": 96.69727245966594,
+                "creation_time": 1774613957.9274542,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-248671.pt"
+                ]
+            },
+            {
+                "steps": 299017,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-299017.onnx",
+                "reward": 97.7749474843343,
+                "creation_time": 1774614190.488002,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-299017.pt"
+                ]
+            },
+            {
+                "steps": 349048,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-349048.onnx",
+                "reward": 132.34276733398437,
+                "creation_time": 1774614472.179579,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-349048.pt"
+                ]
+            },
+            {
+                "steps": 399989,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-399989.onnx",
+                "reward": 144.82784618030894,
+                "creation_time": 1774614702.6857748,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-399989.pt"
+                ]
+            },
+            {
+                "steps": 448935,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-448935.onnx",
+                "reward": null,
+                "creation_time": 1774614932.0532236,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-448935.pt"
+                ]
+            },
+            {
+                "steps": 499351,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-499351.onnx",
+                "reward": 113.84042477607727,
+                "creation_time": 1774615192.3680484,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-499351.pt"
+                ]
+            },
+            {
+                "steps": 548835,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-548835.onnx",
+                "reward": 164.93649291992188,
+                "creation_time": 1774615415.0619466,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-548835.pt"
+                ]
+            },
+            {
+                "steps": 599397,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-599397.onnx",
+                "reward": 131.7412109375,
+                "creation_time": 1774615644.476439,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-599397.pt"
+                ]
+            },
+            {
+                "steps": 649357,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-649357.onnx",
+                "reward": 135.41544233049666,
+                "creation_time": 1774615864.4663014,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-649357.pt"
+                ]
+            },
+            {
+                "steps": 698815,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-698815.onnx",
+                "reward": 131.00106702532088,
+                "creation_time": 1774616082.6226606,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-698815.pt"
+                ]
+            },
+            {
+                "steps": 749714,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-749714.onnx",
+                "reward": 149.12610626220703,
+                "creation_time": 1774616312.5147653,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-749714.pt"
+                ]
+            },
+            {
+                "steps": 798858,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-798858.onnx",
+                "reward": 143.33033098493303,
+                "creation_time": 1774616529.7415497,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-798858.pt"
+                ]
+            },
+            {
+                "steps": 849416,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-849416.onnx",
+                "reward": 143.30205770639273,
+                "creation_time": 1774616753.908771,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-849416.pt"
+                ]
+            },
+            {
+                "steps": 898974,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-898974.onnx",
+                "reward": 125.00967788696289,
+                "creation_time": 1774616977.716875,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-898974.pt"
+                ]
+            },
+            {
+                "steps": 949935,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-949935.onnx",
+                "reward": 140.45379638671875,
+                "creation_time": 1774617242.5000916,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-949935.pt"
+                ]
+            },
+            {
+                "steps": 999525,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-999525.onnx",
+                "reward": 149.65014157976424,
+                "creation_time": 1774617482.253938,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-999525.pt"
+                ]
+            },
+            {
+                "steps": 1000770,
+                "file_path": "results\\dragon_run_1\\DragonFlight\\DragonFlight-1000770.onnx",
+                "reward": 148.92306671142578,
+                "creation_time": 1774617482.3181167,
+                "auxillary_file_paths": [
+                    "results\\dragon_run_1\\DragonFlight\\DragonFlight-1000770.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000770,
+            "file_path": "results\\dragon_run_1\\DragonFlight.onnx",
+            "reward": 148.92306671142578,
+            "creation_time": 1774617482.3181167,
+            "auxillary_file_paths": [
+                "results\\dragon_run_1\\DragonFlight\\DragonFlight-1000770.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.0.1+cpu"
+    }
+}

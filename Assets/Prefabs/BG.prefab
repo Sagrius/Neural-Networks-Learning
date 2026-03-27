@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2968831720468652911}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 6979607228115421}
   - component: {fileID: 4355447126799611169}
   - component: {fileID: 2946256360861068876}
-  - component: {fileID: 8060252091977400245}
-  m_Layer: 0
+  - component: {fileID: 2994787674566253987}
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,8 +135,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8060252091977400245
-MeshCollider:
+--- !u!65 &2994787674566253987
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -153,10 +153,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &70559639790371653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -224,6 +223,10 @@ PrefabInstance:
     - target: {fileID: 6084153799627428375, guid: 17861cfda075c8744bacf03c721a2fb9, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084153799627428375, guid: 17861cfda075c8744bacf03c721a2fb9, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -303,6 +306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_09
       objectReference: {fileID: 0}
+    - target: {fileID: 8795136358020639746, guid: d2bfb0e036112594e9b56bb598563b4b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -381,6 +388,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_06
       objectReference: {fileID: 0}
+    - target: {fileID: 8763607762714683411, guid: 2152c0b51992ab8448a152f3a3cf7005, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -402,6 +413,10 @@ PrefabInstance:
     - target: {fileID: 4508034789514663078, guid: f849440e542d2de439d1c32c9b35f719, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4508034789514663078, guid: f849440e542d2de439d1c32c9b35f719, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6570174142653963164, guid: f849440e542d2de439d1c32c9b35f719, type: 3}
       propertyPath: m_LocalScale.x
@@ -537,6 +552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_05
       objectReference: {fileID: 0}
+    - target: {fileID: 7713063701125393423, guid: bb7e4b5f33d1c9443b29719fa3bff24a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -558,6 +577,10 @@ PrefabInstance:
     - target: {fileID: 4588462960412266778, guid: a95ba81018eeb5b4eada1be672eb080e, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588462960412266778, guid: a95ba81018eeb5b4eada1be672eb080e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7029622370424011128, guid: a95ba81018eeb5b4eada1be672eb080e, type: 3}
       propertyPath: m_LocalScale.x
@@ -637,6 +660,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4049310091102415974, guid: f50181c5fe9619441a5c6f889b4a60e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4165395631697687046, guid: f50181c5fe9619441a5c6f889b4a60e4, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -714,6 +741,10 @@ PrefabInstance:
     - target: {fileID: 4049310091102415974, guid: f50181c5fe9619441a5c6f889b4a60e4, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049310091102415974, guid: f50181c5fe9619441a5c6f889b4a60e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4165395631697687046, guid: f50181c5fe9619441a5c6f889b4a60e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -849,6 +880,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_04
       objectReference: {fileID: 0}
+    - target: {fileID: 7252511992040370033, guid: 412e9b486501a1b46a1d31a5fbfc7602, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -870,6 +905,10 @@ PrefabInstance:
     - target: {fileID: 5405509815442909843, guid: 715d8bbb028012943ad11862676c012e, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405509815442909843, guid: 715d8bbb028012943ad11862676c012e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9039808724803115097, guid: 715d8bbb028012943ad11862676c012e, type: 3}
       propertyPath: m_LocalScale.x
@@ -949,6 +988,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_15
       objectReference: {fileID: 0}
+    - target: {fileID: 5186064978270400107, guid: dba48db5fa896dc4aad98a464677a149, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7958069803151248879, guid: dba48db5fa896dc4aad98a464677a149, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -1027,6 +1070,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_07
       objectReference: {fileID: 0}
+    - target: {fileID: 4284637134989769114, guid: 83fa3b60d6976264f8e5a1fc4f17f09b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6154949070755331034, guid: 83fa3b60d6976264f8e5a1fc4f17f09b, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -1104,6 +1151,10 @@ PrefabInstance:
     - target: {fileID: 1254289601292303803, guid: 4c33c3918e8a12b4289d1124e9ca0c1c, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254289601292303803, guid: 4c33c3918e8a12b4289d1124e9ca0c1c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1491958158751749252, guid: 4c33c3918e8a12b4289d1124e9ca0c1c, type: 3}
       propertyPath: m_LocalScale.x
@@ -1239,6 +1290,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Clouds_v07_02
       objectReference: {fileID: 0}
+    - target: {fileID: 6396362736391512272, guid: 7ad6746f407ac4c4f98f2a15f161d5ee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1260,6 +1315,10 @@ PrefabInstance:
     - target: {fileID: 164124685603672558, guid: 5c5ecf6f14da79c43b1b3d73a520e2aa, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_08
+      objectReference: {fileID: 0}
+    - target: {fileID: 164124685603672558, guid: 5c5ecf6f14da79c43b1b3d73a520e2aa, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7204313019409295814, guid: 5c5ecf6f14da79c43b1b3d73a520e2aa, type: 3}
       propertyPath: m_LocalScale.x
@@ -1338,6 +1397,10 @@ PrefabInstance:
     - target: {fileID: 2831661816795027456, guid: 782247e25ec5bc54bb4e106905e73db5, type: 3}
       propertyPath: m_Name
       value: Clouds_v07_12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2831661816795027456, guid: 782247e25ec5bc54bb4e106905e73db5, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9170367848448720083, guid: 782247e25ec5bc54bb4e106905e73db5, type: 3}
       propertyPath: m_LocalScale.x

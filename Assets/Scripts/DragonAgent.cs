@@ -2,180 +2,273 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using System.Xml.Schema;
 
 [RequireComponent(typeof(Rigidbody))]
 public class DragonAgent : Agent
 {
+    #region Fields
     [Header("References")]
-    [SerializeField] private DragonController dragonController;
-    [SerializeField] private Transform targetPoint;
+    [SerializeField] private DragonTrainingArea trainingArea;
+    [SerializeField] private ObstacleSpawner obstacleSpawner;
+    [SerializeField] private DragonOutputsVisuallizer dragonController;
+    [SerializeField] private Transform targetTransform;
 
-    [Header("Flight Settings")]
-    [SerializeField] private float moveForceMultiplier = 10f;
-    [SerializeField] private float maxSpeed = 15f;
+    [Header("Rewards")]
+    [SerializeField] private float approachRewardScale = 0.01f;
+    [SerializeField] private float headingRewardScale = 0.02f;
+    [SerializeField] private float minSpeedForHeading = 2f;
+    [SerializeField] private float reachTargetBonus = 5f;
+    [SerializeField] private float targetRadius = 15f;
 
-    [Header("Raycasts for Obstacle Detection")]
-    [SerializeField] private int rayCount = 8;
-    [SerializeField] private float rayLength = 10f;
-    [SerializeField] private LayerMask obstacleLayer;
+    [Header("Penalties")]
+    [SerializeField] private float stepPenalty = -0.0005f;
+    [SerializeField] private float smoothnessPenalty = -0.001f;
+    [SerializeField] private float nearMissPenalty = -0.01f;
+    [SerializeField] private float obstacleHitPenalty = -2f;
+    [SerializeField] private float minFlightAltitude = 15f;
+    [SerializeField] private float groundHitPenalty = -2f;
+    [SerializeField] private float OvershootPenalty = -2f;
 
-    private Rigidbody rb;
-    private Vector3 startPosition;
-    private Quaternion startRotation;
-    private Vector3 previousPosition;
+    [Header("Obstacle detection")]
+    [SerializeField] private float rayLength = 30f;
+    [SerializeField] private int raysInRing = 8;
+    [SerializeField] private float coneAngle = 30f;
+    [SerializeField] private LayerMask obstacleMask;
 
-    // How close to target counts as success
-    private const float TargetReachedDistance = 2f;
+    private Rigidbody _rb;
 
-    // -------------------------------------------------------
+    private float liftForce = 24f;
+    private float thrustForce = 40f;
+    private float turnTorque = 16f;
+    private float rollTorque = 3f;
+    private float pitchTorque = 12f;
+    private float dragCoefficient = 0.06f;
+    private float maxSpeed = 80f;
 
+    private float _prevDistance;
+    private bool _obstacleInRange;
+
+    #endregion
+
+    #region Agent
     public override void Initialize()
     {
-        rb = GetComponent<Rigidbody>();
-        startPosition = transform.position;
-        startRotation = transform.rotation;
-        MaxStep = 5000;  
+        _rb = GetComponent<Rigidbody>();
+        _rb.linearDamping = 0.5f;
+        _rb.angularDamping = 1f;
     }
 
     public override void OnEpisodeBegin()
     {
-        // Reset dragon to its original scene position
-        previousPosition = startPosition;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        transform.SetPositionAndRotation(startPosition, startRotation);
-    }
+        obstacleSpawner.RespawnObstacles();
+        trainingArea.ResetRunArea();
 
-    // -------------------------------------------------------
-    // OBSERVATIONS  (inputs to the neural network)
-    // -------------------------------------------------------
+        transform.position = trainingArea.AgentSpawnPosition;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+
+        targetTransform.position = trainingArea.TargetSpawnPosition;
+
+        _prevDistance = Vector3.Distance(transform.position, targetTransform.position);
+    }
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Dragon position (normalized relative to target)
-        Vector3 toTarget = targetPoint.position - transform.position;
-        sensor.AddObservation(toTarget.normalized);         // 3 floats
-        sensor.AddObservation(toTarget.magnitude / 100f);  // 1 float (distance, normalized)
+        Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
+        float distanceToTarget = Vector3.Distance(transform.position, targetTransform.position);
+        float altitudeDiff = targetTransform.position.y - transform.position.y;
 
-        // Current velocity
-        sensor.AddObservation(rb.linearVelocity / maxSpeed);  // 3 floats
+        //3 Observations
+        sensor.AddObservation(directionToTarget);           
+        //1 Observation -- 1 is far / 0 is close
+        sensor.AddObservation(Mathf.Clamp01(distanceToTarget / 1800f));
+        //1 Observation -- is target above or below -- positive above target --equal same height -- negative below target
+        sensor.AddObservation(altitudeDiff / 100f);
 
-        // Raycasts — obstacle detection (one per direction around the dragon)
-        for (int i = 0; i < rayCount; i++)
+        Vector3 localVelocity = transform.InverseTransformDirection(_rb.linearVelocity);
+        Vector3 localAngularVelocity = transform.InverseTransformDirection(_rb.angularVelocity);
+        //3 Observations --  how fast and in which local direction
+        sensor.AddObservation(localVelocity / maxSpeed);
+        //3 Observations -- how fast is it spinning
+        sensor.AddObservation(localAngularVelocity / 10f);
+        //3 Observations -- which way the dragon faces (world space)
+        sensor.AddObservation(transform.forward);                       
+        //3 Observations -- which way is up for the dragon (world space)
+        sensor.AddObservation(transform.up);                            
+
+        //17 Total ^
+
+        // did it hit (0 or 1)
+        // normalised distance (1=clear, 0=right on top)
+        _obstacleInRange = false;
+        foreach (Vector3 dir in BuildRayDirections())
         {
-            float angle = i * (360f / rayCount);
-            Vector3 dir = Quaternion.Euler(0, angle, 0) * transform.forward;
-            float hit = Physics.Raycast(transform.position, dir, out RaycastHit hitInfo, rayLength, obstacleLayer)
-                        ? hitInfo.distance / rayLength   // normalized 0–1
-                        : 1f;                            // no obstacle = 1
-            sensor.AddObservation(hit);                  // rayCount floats
+            bool hit = Physics.Raycast(transform.position, dir, out RaycastHit hitInfo, rayLength, obstacleMask);
+            float normDistance = hit ? hitInfo.distance / rayLength : 1f;
+
+            //1 Observation
+            sensor.AddObservation(hit ? 1f : 0f);
+            //1 Observation
+            sensor.AddObservation(normDistance);
+
+            if (hit) _obstacleInRange = true;
         }
 
-        // Total observation size: 3 + 1 + 3 + rayCount = 15 (with 8 rays)
-    }
+        //1 Center Ray x2  = 2
+        //8 Cone Rays x 2 = 16
 
-    // -------------------------------------------------------
-    // ACTIONS  (outputs from the neural network)
-    // -------------------------------------------------------
+        //Total 17+18 = 35
+    }
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // 3 continuous actions in range [-1, 1]
-        float leftWing = actions.ContinuousActions[0];   // -1 to 1
-        float rightWing = actions.ContinuousActions[1];   // -1 to 1
-        float tail = actions.ContinuousActions[2];   // -1 to 1
+        float leftWing = (actions.ContinuousActions[0] + 1f) * 0.5f;
+        float rightWing = (actions.ContinuousActions[1] + 1f) * 0.5f;
+        float tail = actions.ContinuousActions[2];
 
-        // --- Drive the animator sliders via DragonController ---
-        // Remap from [-1,1] to [0,1] for your sliders
-        dragonController.SetLeftWingValue((leftWing + 1f) / 2f);
-        dragonController.SetRightWingValue((rightWing + 1f) / 2f);
-        dragonController.SetTailValue((tail + 1f) / 2f);
+        ApplyFlightForces(leftWing, rightWing, tail);
+        UpdateVisuals(leftWing, rightWing, tail);
 
-        // --- Drive flap animation speed based on average wing output ---
-        float avgWing = (Mathf.Abs(leftWing) + Mathf.Abs(rightWing)) / 2f;
-        dragonController.SetFlapSpeed(Mathf.Lerp(0.5f, 2f, avgWing));
+        float distance = Vector3.Distance(transform.position, targetTransform.position);
+        float deltadist = _prevDistance - distance;
+        _prevDistance = distance;
 
-        // --- Apply physical forces to the Rigidbody ---
-        // Equal wings = lift/descend, unequal = turn, tail = forward thrust
-        float lift = (leftWing + rightWing) * 0.5f;
-        float yaw = (rightWing - leftWing);           // differential = turn
-        float thrust = tail;
+        // Proximity Reward
+        AddReward(deltadist * approachRewardScale);
 
-        Vector3 force = transform.up * lift * moveForceMultiplier
-                      + transform.forward * thrust * moveForceMultiplier;
-        rb.AddForce(force);
-
-        // Torque for turning
-        rb.AddTorque(transform.up * yaw * moveForceMultiplier * 0.5f);
-
-        // Clamp speed
-        if (rb.linearVelocity.magnitude > maxSpeed)
-            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
-
-        // --- Rewards ---
-        float distanceToTarget = Vector3.Distance(transform.position, targetPoint.position);
-
-        // Reward for getting closer since last step (dense reward)
-        float previousDistance = Vector3.Distance(previousPosition, targetPoint.position);
-        AddReward((previousDistance - distanceToTarget) * 0.1f);
-
-        // Penalty for being upside down
-        AddReward(Vector3.Dot(transform.up, Vector3.up) * 0.001f);
-
-        // Penalty per step
-        AddReward(-0.0005f);
-
-        // Big reward for reaching target
-        if (distanceToTarget < TargetReachedDistance)
+        // Direction Reward
+        if (_rb.linearVelocity.magnitude > minSpeedForHeading)
         {
-            AddReward(+10f);
-            EndEpisode();
+            Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
+            float headingAlignment = Vector3.Dot(_rb.linearVelocity.normalized, directionToTarget);
+            AddReward(headingAlignment * headingRewardScale);
         }
 
-        // Fell too far
-        if (transform.position.y < -5f)
+        // Step Penalty
+        AddReward(stepPenalty);
+
+        // Smoothness Penalty
+        AddReward(smoothnessPenalty * _rb.angularVelocity.magnitude);
+
+        // Penalty when an obstacle is dangerously close ahead
+        if (_obstacleInRange) AddReward(nearMissPenalty);
+
+        if (transform.position.z > targetTransform.position.z + 5)
         {
-            AddReward(-2f);
+            AddReward(OvershootPenalty);
+            Debug.Log("Ended episode due to overshoot!");
             EndEpisode();
+            return;
+        } 
+
+        // Altiture Penalty
+        if (transform.position.y < minFlightAltitude)
+        {
+            AddReward(groundHitPenalty);
+            Debug.Log("Ended episode due to height!");
+            EndEpisode();
+            return;
         }
 
-        previousPosition = transform.position;
-    }
-
-    // -------------------------------------------------------
-    // Heuristic — lets you manually test with keyboard
-    // -------------------------------------------------------
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var ca = actionsOut.ContinuousActions;
-        ca[0] = Input.GetAxis("Horizontal");   // left wing
-        ca[1] = -Input.GetAxis("Horizontal");  // right wing (opposite = turn)
-        ca[2] = Input.GetAxis("Vertical");     // tail / thrust
-    }
-
-    // -------------------------------------------------------
-    // Obstacle collision penalty
-    // -------------------------------------------------------
-    private void OnTriggerEnter(Collider other)
-    {
-        if (((1 << other.gameObject.layer) & obstacleLayer) != 0)
+        // Target reward
+        if (distance < targetRadius)
         {
-            AddReward(-1f);
+            AddReward(reachTargetBonus);
+            Debug.Log("Reached target!");
             EndEpisode();
         }
     }
 
-    private void OnDrawGizmosSelected()
+    #endregion
+
+    #region Physics
+    private void ApplyFlightForces(float leftWing, float rightWing, float tail)
     {
-        Gizmos.color = Color.cyan;
-        for (int i = 0; i < rayCount; i++)
+
+        // Average wing strength = lift (both wings up = climb)
+        float liftInput = (leftWing + rightWing) * 0.5f;
+        _rb.AddForce(transform.up * liftInput * liftForce, ForceMode.Force);
+
+        // Tail positive = forward thrust, tail negative = braking
+        if (tail > 0f)
+            _rb.AddForce(transform.forward * tail * thrustForce, ForceMode.Force);
+        else
+            _rb.AddForce(-_rb.linearVelocity * Mathf.Abs(tail) * dragCoefficient * 10f, ForceMode.Force);
+
+        // Wing difference = turn (left stronger = turn right, right stronger = turn left)
+        float wingDifference = leftWing - rightWing;
+        _rb.AddTorque(transform.up * wingDifference * turnTorque, ForceMode.Force);
+        _rb.AddTorque(transform.forward * wingDifference * rollTorque, ForceMode.Force);
+        _rb.AddTorque(transform.right * tail * pitchTorque, ForceMode.Force);
+
+
+        // Speed limit
+        if (_rb.linearVelocity.magnitude > maxSpeed) _rb.linearVelocity = _rb.linearVelocity.normalized * maxSpeed;
+
+    }
+
+    #endregion
+
+    #region Visuals
+    private void UpdateVisuals(float leftWing, float rightWing, float tail)
+    {
+        if (dragonController == null) return;
+
+        float flapSpeed = Mathf.Lerp(0f, 1f, (leftWing + rightWing) * 0.5f);
+        dragonController.SetFlapSpeed(flapSpeed);
+        dragonController.SetLeftWingValue(leftWing);
+        dragonController.SetRightWingValue(rightWing);
+        dragonController.SetTailValue(tail);
+    }
+
+    private void OnDrawGizmos()
+    {
+
+        foreach (Vector3 dir in BuildRayDirections())
         {
-            float angle = i * (360f / rayCount);
-            Vector3 dir = Quaternion.Euler(0, angle, 0) * transform.forward;
+            bool hit = Physics.Raycast(transform.position, dir, rayLength, obstacleMask);
+            Gizmos.color = hit ? Color.red : Color.yellow;
             Gizmos.DrawRay(transform.position, dir * rayLength);
         }
-        if (targetPoint)
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(targetTransform.position, targetRadius);
+    }
+
+    #endregion
+
+    #region Collisions/Rays
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(targetPoint.position, TargetReachedDistance);
+            AddReward(obstacleHitPenalty);
+            EndEpisode();
+        }
+
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            AddReward(groundHitPenalty);
+            EndEpisode();
         }
     }
+    private Vector3[] BuildRayDirections()
+    {
+        var dirs = new Vector3[1 + raysInRing];
+
+        // Center ray 
+        dirs[0] = transform.forward;
+
+        // Ring rays 
+        for (int i = 0; i < raysInRing; i++)
+        {
+            float rollAngle = 360f * i / raysInRing;
+            Vector3 tilted = Quaternion.AngleAxis(coneAngle, transform.right) * transform.forward;
+            Vector3 rolled = Quaternion.AngleAxis(rollAngle, transform.forward) * tilted;
+            dirs[1 + i] = rolled;
+        }
+
+        return dirs;
+    }
+    #endregion
 }
